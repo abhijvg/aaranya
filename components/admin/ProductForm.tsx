@@ -273,11 +273,11 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
       </div>
 
       <div>
-        <label htmlFor="images" className="block text-sm font-medium text-gray-700">
-          Images * (up to {PRODUCT_CONSTRAINTS.MAX_IMAGES})
+        <label htmlFor="images" className="block text-sm font-semibold text-gray-900 mb-2">
+          Images <span className="text-red-500">*</span> (up to {PRODUCT_CONSTRAINTS.MAX_IMAGES})
         </label>
-        <p className="text-sm text-gray-500 mb-2">
-          {formData.images.length + imageFiles.length} / {PRODUCT_CONSTRAINTS.MAX_IMAGES} images
+        <p className="text-sm text-gray-600 mb-4">
+          {formData.images.length + imageFiles.length} / {PRODUCT_CONSTRAINTS.MAX_IMAGES} images uploaded
         </p>
 
         {/* Existing images */}
