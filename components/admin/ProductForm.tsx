@@ -337,7 +337,7 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
             accept="image/*"
             multiple
             onChange={handleImageChange}
-            className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 cursor-pointer"
           />
         )}
         {errors.images && <p className="mt-1 text-sm text-red-600">{errors.images}</p>}
