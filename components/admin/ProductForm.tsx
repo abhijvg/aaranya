@@ -178,8 +178,8 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {errors.submit && (
-        <div className="rounded-md bg-red-50 p-4">
-          <div className="text-sm text-red-800">{errors.submit}</div>
+        <div className="rounded-xl bg-red-50 p-4 border border-red-200">
+          <div className="text-sm font-medium text-red-800">{errors.submit}</div>
         </div>
       )}
 
