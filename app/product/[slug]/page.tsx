@@ -48,14 +48,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
+  const inStock = isProductInStock(product);
+  const displayPrice = getDisplayPrice(product);
+  const hasOffer = product.offer_price !== null && product.offer_price < product.price;
+  const allImages = getProductImages(product);
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="container-tight py-12">
+      {/* Back Link */}
       <Link
         href="/"
-        className="inline-flex items-center text-gray-600 hover:text-gray-900 mb-8 transition-colors"
+        className="inline-flex items-center text-gray-600 hover:text-gray-900 font-medium mb-12 transition-colors group"
       >
         <svg
-          className="w-5 h-5 mr-2"
+          className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -70,9 +76,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
         Back to Products
       </Link>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <div className="space-y-4">
-          <div className="relative w-full h-96 lg:h-[600px] bg-gray-100 rounded-lg overflow-hidden">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        {/* Image Gallery */}
+        <div className="space-y-5">
+          {/* Main Image */}
+          <div className="relative w-full aspect-square bg-gray-100 rounded-xl overflow-hidden border border-gray-200">
             <Image
               src={getProductImage(product)}
               alt={product.name}
@@ -82,23 +90,30 @@ export default async function ProductPage({ params }: ProductPageProps) {
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </div>
-          {getProductImages(product).length > 1 && (
-            <div className="grid grid-cols-4 gap-2">
-              {getProductImages(product).slice(1, 5).map((image, index) => (
-                <div key={index} className="relative w-full h-20 bg-gray-100 rounded overflow-hidden">
+
+          {/* Thumbnail Gallery */}
+          {allImages.length > 1 && (
+            <div className="grid grid-cols-4 gap-3">
+              {allImages.slice(0, 4).map((image, index) => (
+                <div
+                  key={index}
+                  className="relative w-full aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200 hover:border-gray-400 cursor-pointer transition-colors"
+                >
                   <Image
                     src={image}
-                    alt={`${product.name} - Image ${index + 2}`}
+                    alt={`${product.name} - Image ${index + 1}`}
                     fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 25vw, 20vw"
+                    className="object-cover hover:scale-105 transition-transform"
+                    sizes="25vw"
                   />
                 </div>
               ))}
             </div>
           )}
+
+          {/* Video Section */}
           {product.video_url && (
-            <div className="relative w-full aspect-video bg-gray-100 rounded-lg overflow-hidden">
+            <div className="relative w-full aspect-video bg-gray-100 rounded-xl overflow-hidden border border-gray-200">
               <video
                 src={product.video_url}
                 controls
@@ -110,43 +125,64 @@ export default async function ProductPage({ params }: ProductPageProps) {
           )}
         </div>
 
+        {/* Product Details */}
         <div className="flex flex-col">
-          <div className="mb-6">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">{product.name}</h1>
-            <div className="flex items-center gap-3 mb-6">
-              {product.offer_price && product.offer_price < product.price ? (
-                <>
-                  <p className="text-3xl font-bold text-gray-900">₹{getDisplayPrice(product).toFixed(2)}</p>
-                  <p className="text-xl text-gray-500 line-through">₹{product.price.toFixed(2)}</p>
-                  <span className="px-2 py-1 text-sm font-semibold text-red-600 bg-red-100 rounded">
-                    {Math.round(((product.price - product.offer_price) / product.price) * 100)}% OFF
-                  </span>
-                </>
-              ) : (
-                <p className="text-3xl font-bold text-gray-900">₹{getDisplayPrice(product).toFixed(2)}</p>
-              )}
+          {/* Header Section */}
+          <div className="mb-8 pb-8 border-b border-gray-200">
+            <h1 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">{product.name}</h1>
+
+            {/* Pricing */}
+            <div className="mb-8">
+              <div className="flex items-baseline gap-4 mb-4">
+                <span className="text-5xl font-bold text-gray-900">
+                  ₹{displayPrice.toFixed(2)}
+                </span>
+                {hasOffer && (
+                  <>
+                    <span className="text-xl text-gray-500 line-through">
+                      ₹{product.price.toFixed(2)}
+                    </span>
+                    <span className="inline-block px-4 py-1 text-sm font-bold text-white bg-red-500 rounded-full">
+                      {Math.round(((product.price - displayPrice) / product.price) * 100)}% OFF
+                    </span>
+                  </>
+                )}
+              </div>
             </div>
-            <p className="text-lg text-gray-700 leading-relaxed mb-6">{product.description}</p>
-            <div className="flex items-center mb-6">
-              {isProductInStock(product) ? (
-                <span className="inline-flex items-center px-3 py-1 text-sm font-medium text-green-800 bg-green-100 rounded-full">
-                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+
+            {/* Stock Status */}
+            <div className="mb-8">
+              {inStock ? (
+                <div className="inline-flex items-center px-4 py-2 text-sm font-semibold text-primary-800 bg-primary-100 rounded-full border border-primary-200">
+                  <span className="w-2.5 h-2.5 bg-primary-600 rounded-full mr-2.5"></span>
                   In Stock
-                </span>
+                </div>
               ) : (
-                <span className="inline-flex items-center px-3 py-1 text-sm font-medium text-red-800 bg-red-100 rounded-full">
-                  <span className="w-2 h-2 bg-red-500 rounded-full mr-2"></span>
+                <div className="inline-flex items-center px-4 py-2 text-sm font-semibold text-red-800 bg-red-100 rounded-full border border-red-200">
+                  <span className="w-2.5 h-2.5 bg-red-600 rounded-full mr-2.5"></span>
                   Out of Stock
-                </span>
+                </div>
               )}
             </div>
+
+            {/* Description */}
+            <p className="text-lg text-gray-700 leading-relaxed">
+              {product.description}
+            </p>
           </div>
 
-          <div className="mt-auto space-y-4">
-            {isProductInStock(product) && <WhatsAppButton product={product} />}
+          {/* CTA Section */}
+          <div className="mt-auto space-y-4 pt-8">
+            {inStock ? (
+              <WhatsAppButton product={product} />
+            ) : (
+              <div className="w-full py-4 px-6 bg-gray-100 text-gray-600 font-semibold rounded-xl text-center">
+                Currently Out of Stock
+              </div>
+            )}
             <Link
               href="/"
-              className="block w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-colors duration-200 text-center"
+              className="block w-full btn-secondary text-center"
             >
               Continue Shopping
             </Link>
@@ -156,4 +192,3 @@ export default async function ProductPage({ params }: ProductPageProps) {
     </div>
   );
 }
-

@@ -178,31 +178,30 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {errors.submit && (
-        <div className="rounded-md bg-red-50 p-4">
-          <div className="text-sm text-red-800">{errors.submit}</div>
+        <div className="rounded-xl bg-red-50 p-4 border border-red-200">
+          <div className="text-sm font-medium text-red-800">{errors.submit}</div>
         </div>
       )}
 
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-          Product Name *
+        <label htmlFor="name" className="block text-sm font-semibold text-gray-900 mb-2">
+          Product Name <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
           id="name"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
-            errors.name ? 'border-red-300' : ''
-          }`}
+          className={`input-base ${errors.name ? 'border-red-300' : ''}`}
+          placeholder="e.g., Beaded Anklet"
         />
-        {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+        {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name}</p>}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="price" className="block text-sm font-medium text-gray-700">
-            Price *
+          <label htmlFor="price" className="block text-sm font-semibold text-gray-900 mb-2">
+            Price <span className="text-red-500">*</span>
           </label>
           <input
             type="number"
@@ -211,16 +210,15 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
             min="0"
             value={formData.price}
             onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
-              errors.price ? 'border-red-300' : ''
-            }`}
+            className={`input-base ${errors.price ? 'border-red-300' : ''}`}
+            placeholder="0.00"
           />
-          {errors.price && <p className="mt-1 text-sm text-red-600">{errors.price}</p>}
+          {errors.price && <p className="mt-2 text-sm text-red-600">{errors.price}</p>}
         </div>
 
         <div>
-          <label htmlFor="offer_price" className="block text-sm font-medium text-gray-700">
-            Offer Price (optional)
+          <label htmlFor="offer_price" className="block text-sm font-semibold text-gray-900 mb-2">
+            Offer Price (Optional)
           </label>
           <input
             type="number"
@@ -229,39 +227,37 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
             min="0"
             value={formData.offer_price}
             onChange={(e) => setFormData({ ...formData, offer_price: e.target.value })}
-            className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
-              errors.offer_price ? 'border-red-300' : ''
-            }`}
+            className={`input-base ${errors.offer_price ? 'border-red-300' : ''}`}
+            placeholder="0.00"
           />
-          {errors.offer_price && <p className="mt-1 text-sm text-red-600">{errors.offer_price}</p>}
+          {errors.offer_price && <p className="mt-2 text-sm text-red-600">{errors.offer_price}</p>}
         </div>
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-          Description *
+        <label htmlFor="description" className="block text-sm font-semibold text-gray-900 mb-2">
+          Description <span className="text-red-500">*</span>
         </label>
         <textarea
           id="description"
           rows={4}
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
-            errors.description ? 'border-red-300' : ''
-          }`}
+          className={`input-base ${errors.description ? 'border-red-300' : ''}`}
+          placeholder="Describe your product in detail..."
         />
-        {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
+        {errors.description && <p className="mt-2 text-sm text-red-600">{errors.description}</p>}
       </div>
 
       <div>
-        <label htmlFor="category_id" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="category_id" className="block text-sm font-semibold text-gray-900 mb-2">
           Category
         </label>
         <select
           id="category_id"
           value={formData.category_id}
           onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="input-base"
           disabled={loadingCategories}
         >
           <option value="">No Category</option>
@@ -272,16 +268,16 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
           ))}
         </select>
         {loadingCategories && (
-          <p className="mt-1 text-sm text-gray-500">Loading categories...</p>
+          <p className="mt-2 text-sm text-gray-500">Loading categories...</p>
         )}
       </div>
 
       <div>
-        <label htmlFor="images" className="block text-sm font-medium text-gray-700">
-          Images * (up to {PRODUCT_CONSTRAINTS.MAX_IMAGES})
+        <label htmlFor="images" className="block text-sm font-semibold text-gray-900 mb-2">
+          Images <span className="text-red-500">*</span> (up to {PRODUCT_CONSTRAINTS.MAX_IMAGES})
         </label>
-        <p className="text-sm text-gray-500 mb-2">
-          {formData.images.length + imageFiles.length} / {PRODUCT_CONSTRAINTS.MAX_IMAGES} images
+        <p className="text-sm text-gray-600 mb-4">
+          {formData.images.length + imageFiles.length} / {PRODUCT_CONSTRAINTS.MAX_IMAGES} images uploaded
         </p>
 
         {/* Existing images */}
@@ -341,15 +337,15 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
             accept="image/*"
             multiple
             onChange={handleImageChange}
-            className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 cursor-pointer"
           />
         )}
         {errors.images && <p className="mt-1 text-sm text-red-600">{errors.images}</p>}
       </div>
 
       <div>
-        <label htmlFor="video" className="block text-sm font-medium text-gray-700">
-          Video (optional)
+        <label htmlFor="video" className="block text-sm font-semibold text-gray-900 mb-2">
+          Video (Optional)
         </label>
         {formData.video_url && !videoFile && (
           <div className="mt-2 mb-2">
@@ -384,22 +380,22 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
           id="video"
           accept="video/*"
           onChange={handleVideoChange}
-          className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary-50 file:text-primary-700 hover:file:bg-primary-100 cursor-pointer"
         />
       </div>
 
-      <div className="flex justify-end space-x-4">
+      <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
         <button
           type="button"
           onClick={() => window.history.back()}
-          className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+          className="btn-secondary"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isSubmitting || uploadingImages}
-          className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting || uploadingImages ? 'Saving...' : product ? 'Update Product' : 'Create Product'}
         </button>
@@ -407,4 +403,3 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
     </form>
   );
 }
-

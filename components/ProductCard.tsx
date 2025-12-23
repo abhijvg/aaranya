@@ -16,42 +16,53 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="group bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300"
+      className="group flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden hover:border-gray-300 hover:shadow-lg transition-all duration-300"
     >
-      <div className="relative w-full h-64 bg-gray-100">
+      {/* Image Container */}
+      <div className="relative w-full aspect-square bg-gray-100 overflow-hidden">
         <Image
           src={imageUrl}
           alt={product.name}
           fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover group-hover:scale-110 transition-transform duration-300"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
         />
         {!inStock && (
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <span className="text-white font-semibold text-lg">Out of Stock</span>
+          <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center backdrop-blur-sm">
+            <span className="text-white font-semibold text-sm px-4 py-2 bg-black bg-opacity-50 rounded-lg">
+              Out of Stock
+            </span>
+          </div>
+        )}
+        {hasOffer && product.offer_price !== null && (
+          <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+            {Math.round(((product.price - product.offer_price) / product.price) * 100)}% OFF
           </div>
         )}
       </div>
-      <div className="p-4">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors">
+
+      {/* Content */}
+      <div className="flex flex-col flex-grow p-5">
+        <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-700 transition-colors">
           {product.name}
         </h3>
-        <p className="text-sm text-gray-600 mb-3 line-clamp-2">{product.description}</p>
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            {hasOffer ? (
-              <>
-                <span className="text-xl font-bold text-gray-900">₹{displayPrice.toFixed(2)}</span>
-                <span className="text-sm text-gray-500 line-through">₹{product.price.toFixed(2)}</span>
-              </>
-            ) : (
-              <span className="text-xl font-bold text-gray-900">₹{displayPrice.toFixed(2)}</span>
-            )}
-          </div>
+
+        <p className="text-sm text-gray-600 mb-4 truncate-lines-2 flex-grow">
+          {product.description}
+        </p>
+
+        {/* Pricing */}
+        <div className="flex items-baseline gap-2">
+          <span className="text-2xl font-bold text-gray-900">
+            ₹{displayPrice.toFixed(2)}
+          </span>
+          {hasOffer && (
+            <span className="text-sm text-gray-500 line-through">
+              ₹{product.price.toFixed(2)}
+            </span>
+          )}
         </div>
       </div>
     </Link>
   );
 }
-
-

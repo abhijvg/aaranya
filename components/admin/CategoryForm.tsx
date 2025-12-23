@@ -43,7 +43,7 @@ export default function CategoryForm({ onSubmit, loading = false, initialData }:
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="name" className="block text-sm font-semibold text-gray-900 mb-2">
           Category Name <span className="text-red-500">*</span>
         </label>
         <input
@@ -52,13 +52,13 @@ export default function CategoryForm({ onSubmit, loading = false, initialData }:
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="input-base"
           placeholder="e.g., Handmade Jewelry"
         />
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="description" className="block text-sm font-semibold text-gray-900 mb-2">
           Description
         </label>
         <textarea
@@ -66,13 +66,13 @@ export default function CategoryForm({ onSubmit, loading = false, initialData }:
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={4}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="input-base"
           placeholder="Brief description of this category..."
         />
       </div>
 
-      <div>
-        <div className="flex items-center mb-2">
+      <div className="bg-gray-50 border border-gray-200 rounded-xl p-6">
+        <div className="flex items-start gap-3 mb-4">
           <input
             type="checkbox"
             id="autoSlug"
@@ -83,37 +83,40 @@ export default function CategoryForm({ onSubmit, loading = false, initialData }:
                 setSlug(generateSlug(name));
               }
             }}
-            className="mr-2"
+            className="w-5 h-5 mt-0.5 border-gray-300 rounded focus:ring-2 focus:ring-primary-500 cursor-pointer"
           />
-          <label htmlFor="autoSlug" className="text-sm font-medium text-gray-700">
-            Auto-generate slug from name
+          <label htmlFor="autoSlug" className="text-sm font-medium text-gray-900 cursor-pointer">
+            Auto-generate slug from category name
           </label>
         </div>
-        <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-2">
-          Slug
-        </label>
-        <input
-          type="text"
-          id="slug"
-          value={slug}
-          onChange={(e) => {
-            setSlug(e.target.value);
-            setAutoGenerateSlug(false);
-          }}
-          disabled={autoGenerateSlug}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed"
-          placeholder="category-slug"
-        />
-        <p className="mt-1 text-sm text-gray-500">
-          URL-friendly identifier (auto-generated if checkbox is checked)
-        </p>
+
+        <div>
+          <label htmlFor="slug" className="block text-sm font-semibold text-gray-900 mb-2">
+            Slug
+          </label>
+          <input
+            type="text"
+            id="slug"
+            value={slug}
+            onChange={(e) => {
+              setSlug(e.target.value);
+              setAutoGenerateSlug(false);
+            }}
+            disabled={autoGenerateSlug}
+            className="input-base disabled:bg-gray-100 disabled:cursor-not-allowed"
+            placeholder="category-slug"
+          />
+          <p className="mt-2 text-xs text-gray-600">
+            URL-friendly identifier (auto-generated if checkbox is checked)
+          </p>
+        </div>
       </div>
 
-      <div className="flex justify-end space-x-4">
+      <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
         <button
           type="button"
           onClick={() => window.history.back()}
-          className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+          className="btn-secondary"
           disabled={loading}
         >
           Cancel
@@ -121,7 +124,7 @@ export default function CategoryForm({ onSubmit, loading = false, initialData }:
         <button
           type="submit"
           disabled={loading || !name.trim()}
-          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? 'Saving...' : initialData ? 'Update Category' : 'Create Category'}
         </button>
@@ -129,4 +132,3 @@ export default function CategoryForm({ onSubmit, loading = false, initialData }:
     </form>
   );
 }
-
