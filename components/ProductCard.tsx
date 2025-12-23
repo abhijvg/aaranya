@@ -16,7 +16,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/product/${product.slug}`}
-      className="group flex flex-col h-full bg-white border border-gray-200 rounded-12 overflow-hidden hover:border-gray-300 hover:shadow-lg transition-all duration-300"
+      className="group flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden hover:border-gray-300 hover:shadow-lg transition-all duration-300"
     >
       {/* Image Container */}
       <div className="relative w-full aspect-square bg-gray-100 overflow-hidden">
