@@ -235,30 +235,29 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
       </div>
 
       <div>
-        <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-          Description *
+        <label htmlFor="description" className="block text-sm font-semibold text-gray-900 mb-2">
+          Description <span className="text-red-500">*</span>
         </label>
         <textarea
           id="description"
           rows={4}
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
-            errors.description ? 'border-red-300' : ''
-          }`}
+          className={`input-base ${errors.description ? 'border-red-300' : ''}`}
+          placeholder="Describe your product in detail..."
         />
-        {errors.description && <p className="mt-1 text-sm text-red-600">{errors.description}</p>}
+        {errors.description && <p className="mt-2 text-sm text-red-600">{errors.description}</p>}
       </div>
 
       <div>
-        <label htmlFor="category_id" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="category_id" className="block text-sm font-semibold text-gray-900 mb-2">
           Category
         </label>
         <select
           id="category_id"
           value={formData.category_id}
           onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="input-base"
           disabled={loadingCategories}
         >
           <option value="">No Category</option>
@@ -269,7 +268,7 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
           ))}
         </select>
         {loadingCategories && (
-          <p className="mt-1 text-sm text-gray-500">Loading categories...</p>
+          <p className="mt-2 text-sm text-gray-500">Loading categories...</p>
         )}
       </div>
 
