@@ -2,32 +2,55 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { createClient } from '@/lib/supabase-client';
 
 export default function Header() {
   const [isAdmin, setIsAdmin] = useState(false);
+  const supabaseRef = useRef(createClient());
+  const isMountedRef = useRef(true);
 
   useEffect(() => {
+    isMountedRef.current = true;
+    const supabase = supabaseRef.current;
+
     const checkAdmin = async () => {
-      const supabase = createClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setIsAdmin(!!user);
+      if (!isMountedRef.current) return;
+      
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        
+        if (isMountedRef.current) {
+          setIsAdmin((prev) => {
+            const newValue = !!user;
+            // Only update if value actually changed to prevent unnecessary re-renders
+            return prev !== newValue ? newValue : prev;
+          });
+        }
+      } catch (error) {
+        console.error('Error checking admin status:', error);
+        if (isMountedRef.current) {
+          setIsAdmin(false);
+        }
+      }
     };
 
+    // Initial check
     checkAdmin();
 
     // Listen for auth changes
-    const supabase = createClient();
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(() => {
-      checkAdmin();
+    } = supabase.auth.onAuthStateChange((_event, _session) => {
+      if (isMountedRef.current) {
+        checkAdmin();
+      }
     });
 
     return () => {
+      isMountedRef.current = false;
       subscription.unsubscribe();
     };
   }, []);

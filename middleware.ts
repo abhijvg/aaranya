@@ -56,6 +56,8 @@ export async function middleware(request: NextRequest) {
 
   // Skip auth check for login page
   if (request.nextUrl.pathname === '/admin/login') {
+    // Add header to indicate this is the login page
+    response.headers.set('x-is-login-page', 'true');
     return response;
   }
 

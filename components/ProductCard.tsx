@@ -34,7 +34,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             </span>
           </div>
         )}
-        {hasOffer && (
+        {hasOffer && product.offer_price !== null && (
           <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
             {Math.round(((product.price - product.offer_price) / product.price) * 100)}% OFF
           </div>
