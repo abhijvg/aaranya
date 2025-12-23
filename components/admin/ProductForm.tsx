@@ -344,8 +344,8 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
       </div>
 
       <div>
-        <label htmlFor="video" className="block text-sm font-medium text-gray-700">
-          Video (optional)
+        <label htmlFor="video" className="block text-sm font-semibold text-gray-900 mb-2">
+          Video (Optional)
         </label>
         {formData.video_url && !videoFile && (
           <div className="mt-2 mb-2">
