@@ -184,19 +184,18 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
       )}
 
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-          Product Name *
+        <label htmlFor="name" className="block text-sm font-semibold text-gray-900 mb-2">
+          Product Name <span className="text-red-500">*</span>
         </label>
         <input
           type="text"
           id="name"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
-            errors.name ? 'border-red-300' : ''
-          }`}
+          className={`input-base ${errors.name ? 'border-red-300' : ''}`}
+          placeholder="e.g., Beaded Anklet"
         />
-        {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+        {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name}</p>}
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -407,4 +406,3 @@ export default function ProductForm({ product, onSubmit, isSubmitting }: Product
     </form>
   );
 }
-
