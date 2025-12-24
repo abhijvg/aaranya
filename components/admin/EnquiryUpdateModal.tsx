@@ -128,7 +128,7 @@ export default function EnquiryUpdateModal({
             <input
               id="customer_name"
               type="text"
-              value={formData.customer_name}
+              value={formData.customer_name || ''}
               onChange={(e) => setFormData({ ...formData, customer_name: e.target.value })}
               className="input-base"
               placeholder="Enter customer name"
@@ -143,7 +143,7 @@ export default function EnquiryUpdateModal({
             <input
               id="customer_phone"
               type="tel"
-              value={formData.customer_phone}
+              value={formData.customer_phone || ''}
               onChange={(e) => setFormData({ ...formData, customer_phone: e.target.value })}
               className="input-base"
               placeholder="Enter phone number"
@@ -158,7 +158,7 @@ export default function EnquiryUpdateModal({
             <input
               id="customer_email"
               type="email"
-              value={formData.customer_email}
+              value={formData.customer_email || ''}
               onChange={(e) => setFormData({ ...formData, customer_email: e.target.value })}
               className="input-base"
               placeholder="Enter email address"
