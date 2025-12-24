@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Product } from '@/types/product';
 import { openWhatsApp } from '@/utils/whatsapp';
 
@@ -8,7 +9,32 @@ interface WhatsAppButtonProps {
 }
 
 export default function WhatsAppButton({ product }: WhatsAppButtonProps) {
-  const handleClick = () => {
+  const [isTracking, setIsTracking] = useState(false);
+
+  const handleClick = async () => {
+    // Track the enquiry
+    if (!isTracking) {
+      setIsTracking(true);
+      try {
+        await fetch('/api/enquiries', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            product_id: product.id,
+            description: `Enquiry for ${product.name}`,
+          }),
+        });
+      } catch (error) {
+        console.error('Failed to track enquiry:', error);
+        // Continue to open WhatsApp even if tracking fails
+      } finally {
+        setIsTracking(false);
+      }
+    }
+
+    // Open WhatsApp
     openWhatsApp(product);
   };
 

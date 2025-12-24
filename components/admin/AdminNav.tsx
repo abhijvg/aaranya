@@ -51,6 +51,12 @@ export default function AdminNav() {
             >
               Categories
             </Link>
+            <Link
+              href="/admin/enquiries"
+              className="px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-50 font-medium text-sm rounded-lg transition-colors"
+            >
+              Enquiries
+            </Link>
           </div>
 
           {/* Actions */}

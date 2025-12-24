@@ -79,6 +79,15 @@ export async function middleware(request: NextRequest) {
     }
   }
 
+  // Protect enquiries API routes (GET, PATCH, DELETE require auth, POST is public)
+  if (request.nextUrl.pathname.startsWith('/api/enquiries')) {
+    const method = request.method;
+    // Allow POST (public), protect GET, PATCH, DELETE
+    if (method !== 'POST' && !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+  }
+
   return response;
 }
 
@@ -86,6 +95,7 @@ export const config = {
   matcher: [
     '/admin/:path*',
     '/api/products/:path*',
+    '/api/enquiries/:path*',
   ],
 };
 

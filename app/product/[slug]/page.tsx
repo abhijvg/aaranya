@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getProductBySlug, getAllProducts } from '@/lib/supabase-queries';
 import WhatsAppButton from '@/components/WhatsAppButton';
-import { getProductImage, isProductInStock, getDisplayPrice, getProductImages } from '@/utils/product-helpers';
+import ProductImageCarousel from '@/components/ProductImageCarousel';
+import { isProductInStock, getDisplayPrice, getProductImages } from '@/utils/product-helpers';
 
 interface ProductPageProps {
   params: Promise<{
@@ -78,52 +78,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
         {/* Image Gallery */}
-        <div className="space-y-5">
-          {/* Main Image */}
-          <div className="relative w-full aspect-square bg-gray-100 rounded-xl overflow-hidden border border-gray-200">
-            <Image
-              src={getProductImage(product)}
-              alt={product.name}
-              fill
-              className="object-cover"
-              priority
-              sizes="(max-width: 1024px) 100vw, 50vw"
-            />
-          </div>
-
-          {/* Thumbnail Gallery */}
-          {allImages.length > 1 && (
-            <div className="grid grid-cols-4 gap-3">
-              {allImages.slice(0, 4).map((image, index) => (
-                <div
-                  key={index}
-                  className="relative w-full aspect-square bg-gray-100 rounded-lg overflow-hidden border border-gray-200 hover:border-gray-400 cursor-pointer transition-colors"
-                >
-                  <Image
-                    src={image}
-                    alt={`${product.name} - Image ${index + 1}`}
-                    fill
-                    className="object-cover hover:scale-105 transition-transform"
-                    sizes="25vw"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Video Section */}
-          {product.video_url && (
-            <div className="relative w-full aspect-video bg-gray-100 rounded-xl overflow-hidden border border-gray-200">
-              <video
-                src={product.video_url}
-                controls
-                className="w-full h-full object-cover"
-              >
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          )}
-        </div>
+        <ProductImageCarousel
+          images={allImages}
+          productName={product.name}
+          videoUrl={product.video_url}
+        />
 
         {/* Product Details */}
         <div className="flex flex-col">

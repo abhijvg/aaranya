@@ -1,13 +1,14 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 import { Category } from '@/types/category';
 
 interface CategoryFilterProps {
   categories: Category[];
 }
 
-export default function CategoryFilter({ categories }: CategoryFilterProps) {
+function CategoryFilterContent({ categories }: CategoryFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const selectedCategory = searchParams.get('category');
@@ -55,5 +56,13 @@ export default function CategoryFilter({ categories }: CategoryFilterProps) {
         ))}
       </div>
     </div>
+  );
+}
+
+export default function CategoryFilter({ categories }: CategoryFilterProps) {
+  return (
+    <Suspense fallback={<div className="mb-10 text-gray-500">Loading filters...</div>}>
+      <CategoryFilterContent categories={categories} />
+    </Suspense>
   );
 }

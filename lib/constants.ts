@@ -19,6 +19,7 @@ export const ROUTES = {
   ADMIN_LOGIN: '/admin/login',
   ADMIN_PRODUCTS: '/admin/products',
   ADMIN_PRODUCT_NEW: '/admin/products/new',
+  ADMIN_ENQUIRIES: '/admin/enquiries',
 } as const;
 
 export const PRODUCTS_TABLE = 'products';

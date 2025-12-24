@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import { getAllProducts } from '@/lib/supabase-queries';
 import { getAllCategories } from '@/lib/category-queries';
 import ProductGrid from '@/components/ProductGrid';
@@ -6,14 +5,6 @@ import CategoryFilter from '@/components/CategoryFilter';
 
 interface HomePageProps {
   searchParams: Promise<{ category?: string }>;
-}
-
-function CategoryFilterSuspense({ categories }: { categories: Awaited<ReturnType<typeof getAllCategories>> }) {
-  return (
-    <Suspense fallback={<div className="mb-8 text-gray-500">Loading filters...</div>}>
-      <CategoryFilter categories={categories} />
-    </Suspense>
-  );
 }
 
 export default async function HomePage({ searchParams }: HomePageProps) {
@@ -41,7 +32,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       <section id="products" className="mb-12">
         <div className="mb-12">
           <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Collection</h2>
-          <CategoryFilterSuspense categories={categories} />
+          <CategoryFilter categories={categories} />
         </div>
 
         {products.length === 0 ? (
